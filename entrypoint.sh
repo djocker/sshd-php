@@ -2,10 +2,10 @@
 if [[ ! -z ${USER_PASS} ]]; then
   USER_NAME=${USER_NAME-web}
   
-  if [[ "www-data" = ${USER_NAME} ]]; then
-    chsh -s /bin/bash www-data
-  else:
-    adduser --uid 1000 --quiet --disabled-password -shell /bin/bash --home /home/web --gecos "User" ${USER_NAME} 
+  if [[ "www-data" == ${USER_NAME} ]]; then
+    chsh -s /bin/bash ${USER_NAME}
+  else
+    adduser --uid ${USER_UID-1000} --gid ${USER_GID-1000} --quiet --disabled-password --shell /bin/bash --home /home/web --gecos "User" ${USER_NAME} 
   fi
   
   echo ${USER_NAME}":"${USER_PASS} | chpasswd
@@ -16,4 +16,4 @@ if [[ ! -z ${ROOT_PASS} ]]; then
   echo "root:"${ROOT_PASS} | chpasswd
 fi
 
-exec /usr/sbin/sshd -D 
+exec $@;
