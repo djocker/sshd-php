@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
  locale-gen en en_US en_US.UTF-8 && dpkg-reconfigure locales
