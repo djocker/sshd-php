@@ -1,6 +1,10 @@
-FROM ubuntu:14.04
+FROM ubuntu:trusty
 
-RUN export DEBIAN_FRONTEND=noninteractive; locale-gen en en_US en_US.UTF-8 && dpkg-reconfigure locales
+RUN export DEBIAN_FRONTEND=noninteractive; \
+ locale-gen en en_US en_US.UTF-8 && dpkg-reconfigure locales
+ 
+ENV LC_ALL="en_US.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
+
 RUN apt-get update && apt-get install -y openssh-server && apt-get clean && mkdir /var/run/sshd
 
 # SSH login fix. Otherwise user is kicked off after login
