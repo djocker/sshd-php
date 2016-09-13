@@ -36,9 +36,9 @@ djocker/sshd
 
 ### Available Variables (all variables are optional)
 `USER_NAME` (name of unix user)  
-`USERUSER_PASS` (password of unix user)  
+`USER_PASS` (password of unix user)  
 `USER_UID` (uid for user, 1000 by default)  
 `USER_GID` (gid for user, 1000 by default)  
 `ROOT_PASS` (root user password)  
 
-*note: if setted www-data as USERNAME will use embedded user with uid:33 and guid:33*
+*note: if setted www-data as USER_NAME will use embedded user with uid:33 and guid:33*
