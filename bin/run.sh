@@ -16,6 +16,4 @@ if [[ ! -z ${ROOT_PASS} ]]; then
   echo "root:"${ROOT_PASS} | chpasswd
 fi
 
-/usr/sbin/sshd -D 
-
-
+exec /usr/sbin/sshd -D 
