@@ -9,11 +9,13 @@ if [[ ! -z ${USER_NAME} ]]; then
   if [[ ${#USER_PASS} -gt 0 ]]; then
     echo ${USER_NAME}":"${USER_PASS} | chpasswd
   fi
+  [[ -f $(echo ~${USER_NAME})/.ssh/authorized_keys ]] && chown ${USER_UID-1000}:${USER_GID-1000} $(echo ~${USER_NAME})/.ssh/authorized_keys
 fi
 
 if [[ ! -z ${ROOT_PASS} ]]; then
   sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
   echo "root:"${ROOT_PASS} | chpasswd
+  [[ -f $(echo ~root)/.ssh/authorized_keys ]] && chown root:root $(echo ~root)/.ssh/authorized_keys
 fi
 
 exec $@;
