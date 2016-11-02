@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-if [[ ! -z ${USER_PASS} ]]; then
-  USER_NAME=${USER_NAME-web}
-  
+if [[ ! -z ${USER_NAME} ]]; then
   if [[ "www-data" == ${USER_NAME} ]]; then
     chsh -s /bin/bash ${USER_NAME}
   else
