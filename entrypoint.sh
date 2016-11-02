@@ -8,7 +8,9 @@ if [[ ! -z ${USER_PASS} ]]; then
     adduser --uid ${USER_UID-1000} --gid ${USER_GID-1000} --quiet --disabled-password --shell /bin/bash --home /home/web --gecos "User" ${USER_NAME} 
   fi
   
-  echo ${USER_NAME}":"${USER_PASS} | chpasswd
+  if [[ ${#USER_PASS} -gt 0 ]]; then
+    echo ${USER_NAME}":"${USER_PASS} | chpasswd
+  fi
 fi
 
 if [[ ! -z ${ROOT_PASS} ]]; then
