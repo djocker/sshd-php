@@ -10,7 +10,7 @@ docker run -d --restart=always \
 -v /var/www:/var/www \
 -e "USER_NAME=www-data" \
 -e "USER_PASS=wwwdata1234" \
-djocker/sshd
+djocker/sshd-php
 ```
 
 ### Allow access for user with guid 1000
@@ -22,7 +22,7 @@ docker run -d --restart=always \
 -e "USER_PASS=johndoe1234" \
 -e "USER_UID=1000" \
 -e "USER_GID=1000" \
-djocker/sshd
+djocker/sshd-php
 ```
 
 ### Allow access for root user
@@ -31,7 +31,7 @@ docker run -d --restart=always \
 -p 2024:22 \
 -v /root:/root \
 -e "ROOT_PASS=root1234" \
-djocker/sshd
+djocker/sshd-php
 ```
 
 ### Available Variables (all variables are optional)
