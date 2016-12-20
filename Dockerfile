@@ -1,20 +1,35 @@
-FROM ubuntu:xenial
+FROM djocker/sshd
 
-RUN export DEBIAN_FRONTEND=noninteractive; \
- locale-gen en en_US en_US.UTF-8 && dpkg-reconfigure locales
- 
-ENV LC_ALL="en_US.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8"
+RUN apt-get -qqy update \
+&& apt-get install -qqy software-properties-common python-software-properties \
+&& add-apt-repository -y ppa:ondrej/php \
+&& apt-get -qqy update 
 
-RUN apt-get update && apt-get install -y openssh-server && apt-get clean && mkdir /var/run/sshd
+# Install base packages
+RUN apt-get install -qqy apt-transport-https ca-certificates vim make git-core sudo wget curl procps \
+python-setuptools mcrypt mysql-client zip unzip redis-tools
 
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
+# Install php
+RUN apt-get install -qqy --no-install-recommends php5.6-fpm php5.6-cli php5.6-common php5.6-dev \
+php5.6-mysql php5.6-curl php5.6-gd php5.6-mcrypt php5.6-sqlite php5.6-xmlrpc php5.6-ldap \
+php5.6-xsl php5.6-intl php5.6-soap php5.6-mbstring php5.6-zip php5.6-bz2 php5.6-redis
 
-COPY entrypoint.sh /opt/entrypoint.sh
-RUN chmod +x /opt/entrypoint.sh
+# Install composer
+RUN (curl -sS https://getcomposer.org/installer | php) \
+&& mv composer.phar /usr/local/bin/composer
 
-ENTRYPOINT ["/opt/entrypoint.sh"]
-EXPOSE 22
-CMD ["/usr/sbin/sshd -D"]
+# Install composer packages
+RUN composer global require "fxp/composer-asset-plugin:~1.2"
+
+# Install node.js
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - \
+&& apt-get install -qqy nodejs
+
+# Install ruby-compass
+RUN apt-get install -yqq ruby-compass
+
+# Install less compiler
+RUN apt-get install -yqq node-less 
+
+# Install yui-compressor
+RUN apt-get install -yqq yui-compressor
